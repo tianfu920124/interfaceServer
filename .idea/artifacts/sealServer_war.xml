@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="sealServer:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="sealServer-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="sealServer:war exploded" />
+    </root>
+  </artifact>
+</component>

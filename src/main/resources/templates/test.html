@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>InterfaceTest</title>
+
+    <link type="text/css" href="../../static/libs/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+    <link type="text/css" href="../../static/libs/ztree.3.5.26/css/metroStyle/metroStyle.css" rel="stylesheet"/>
+    <!--<link type="text/css" href="../../static/libs/ztree.3.5.26/css/zTreeStyle/zTreeStyle.css" rel="stylesheet">-->
+
+    <script type="text/javascript" src="../../static/libs/jQuery-3.2.0/jquery-3.2.0.min.js"></script>
+    <script type="text/javascript" src="../../static/libs/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../static/libs/layer-v3.0.3/layer/layer.js"></script>
+    <script type="text/javascript" src="../../static/libs/ztree.3.5.26/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="../../static/libs/ztree.3.5.26/jquery.ztree.excheck.js"></script>
+    <script type="text/javascript" src="../../static/libs/jQuery-form/jQuery.form.min.js"></script>
+    <script type="text/javascript" src="../../static/libs/md5.js"></script>
+
+    <script src="../../static/script/test.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Seal Test</a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav">
+                <li data-toggle="loginPage"><a href="#">Login</a></li>
+                <li data-toggle="sealInfoPage"><a href="#">GetSealInfo</a></li>
+                <li data-toggle="signResultPage"><a href="#">FileSign</a></li>
+                <li data-toggle="inspurPage"><a href="#">Inspur</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <div id="loginRow" class="row loginPage">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <div class="input-group">
+                <span class="input-group-addon">UKey</span>
+                <input type="text" class="form-control" placeholder="请输入UKey" value="3DF500FA00019A92"/>
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">Login</button></span>
+            </div>
+        </div>
+    </div>
+    <div class="row loginPage">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div id="loginResult"></div>
+        </div>
+    </div>
+    <div id="sealInfoRow" class="row sealInfoPage">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <button class="btn btn-default" type="button">GetSealInfo</button>
+        </div>
+    </div>
+    <div class="row sealInfoPage">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div id="sealInfoResult"></div>
+        </div>
+    </div>
+    <div id="signResultRow" class="row signResultPage">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <div id="signType" class="input-group">
+                <input type="text" class="form-control" placeholder="请选择签章类型"/>
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        SignType&nbsp;<span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" signType="fileStreamSign">FileStream</a></li>
+                        <li><a href="#" signType="fileSign">File</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="fileStreamSign">
+                <p>Sign by FileStream</p>
+                <div id="loadFileDiv" class="input-group">
+                    <input type="text" class="form-control" placeholder="请上传文件" readonly="readonly"/>
+                    <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">UpLoadFile</button></span>
+                </div>
+                <form id="loadFileForm" action="" method="post" enctype="multipart/form-data" style="display: none;">
+                    <input id="selectFile" type="file" name="file"/>
+                </form>
+            </div>
+            <div class="fileSign">
+                <p>Sign by File</p>
+                <div class="input-group">
+                    <span class="input-group-addon">InputFile</span>
+                    <input id="txtInputFile" type="text" class="form-control" placeholder="请填写输入文件路径" value="d:\11.pdf"/>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">OutputFile</span>
+                    <input id="txtOutputFile" type="text" class="form-control" placeholder="请填写输出文件路径" value="d:\22.pdf"/>
+                </div>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">SealID</span>
+                <input id="txtSealID" type="text" class="form-control" placeholder="请填写sealId" value="1582"/>
+            </div>
+            <button id="btnSign" class="btn btn-default" type="button">Sign</button>
+        </div>
+    </div>
+    <div class="row signResultPage">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div id="signResult"></div>
+        </div>
+    </div>
+    <div id="inspurRow" class="row inspurPage">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div>
+                <button id="btnGetProjectInfo" class="btn btn-default" type="button">GetProjectInfo</button>
+                <button id="btnGetLicense" class="btn btn-default" type="button">GetLicense</button>
+                <button id="btnGetPaginateSurface" class="btn btn-default" type="button">GetPaginateSurface</button>
+                <button id="btnGetLicenceList" class="btn btn-default" type="button">GetLicenceList</button>
+                <button id="btnGetLicenceInfoAndFile" class="btn btn-default" type="button">GetLicenceInfoAndFile</button>
+            </div>
+        </div>
+    </div>
+    <div class="row inspurPage">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div id="zzInfo"></div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
