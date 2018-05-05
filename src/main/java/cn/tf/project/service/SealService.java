@@ -1,5 +1,7 @@
 package cn.tf.project.service;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +9,7 @@ import com.timevale.esign.result.seal.CompressSealResult;
 import com.timevale.esign.result.seal.MakeTempSealResult;
 import com.timevale.esign.result.seal.SealAddResult;
 import com.timevale.esign.result.seal.TemplateAddResult;
+import com.timevale.esign.result.sign.SignInfoResult;
 import com.timevale.esign.sdk.seal.WebSealServiceImpl;
 import esign.bean.WebSealBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -214,22 +217,22 @@ public class SealService {
          */
 
 
-        SignPDFResult signpdfresult = new SignPDFResult();
+        SignPDFResult signPdfResult = new SignPDFResult();
         LocalFileService localfileservice = new LocalFileServiceImpl();
         if (fileByte != null) {
             // 本地文件流签署（云证书签署）
-            signpdfresult = localfileservice.localSignPDF(accountId, email, fileByte, sealId, signType, posbean);
+            signPdfResult = localfileservice.localSignPDF(accountId, email, fileByte, sealId, signType, posbean);
         } else {
             // 本地文件签署（云证书签署）
-            signpdfresult = localfileservice.localSignPDF(accountId, email, srcPdfFile, dstPdfFile, sealId, signType, posbean);
+            signPdfResult = localfileservice.localSignPDF(accountId, email, srcPdfFile, dstPdfFile, sealId, signType, posbean);
         }
-        int errcod = signpdfresult.getErrCode();
-        String errmassage = signpdfresult.getMsg();
+        int errcod = signPdfResult.getErrCode();
+        String errmassage = signPdfResult.getMsg();
 
         JSONObject signResult = new JSONObject();
         if (errcod == 0) {
             signResult.put("status", errcod);
-            signResult.put("signpdfresult", signpdfresult);
+            signResult.put("signPdfResult", signPdfResult.toString());
         } else {
             signResult.put("status", errcod);
             signResult.put("errmassage", errmassage);
@@ -239,29 +242,38 @@ public class SealService {
     }
 
     /**
-     * 删除签章方法
-     * @param sealId 印章Id
+     * 本地PDF文件验签
+     *
+     * @param filePath 文件路径
      * @return
      * @throws JSONException
      */
-//    public JSONObject deleteSeal(int sealId) throws JSONException {
-//        if (login == null) return new JSONObject("{\"errormessage\":\"AccountError_NULL\"}");
-//
-//        WebSealService webSealService = new WebSealServiceImpl();
-//        BaseResult baseResult = webSealService.deleteSeal(accountId, sealId);
-//
-//        int errcod = baseResult.getErrCode();
-//        String errmassage = baseResult.getMsg();
-//
-//        JSONObject deleteResult = new JSONObject();
-//        if (errcod == 0) {
-//            deleteResult.put("status", errcod);
-//            deleteResult.put("deleteresult", baseResult);
-//        } else {
-//            deleteResult.put("status", errcod);
-//            deleteResult.put("errmassage", errmassage);
-//        }
-//
-//        return deleteResult;
-//    }
+    public JSONObject getSignInfoForPDF(String filePath) throws JSONException, UnsupportedEncodingException {
+        if (login == null) return new JSONObject("{\"errormessage\":\"AccountError_NULL\"}");
+        if (filePath == null) return new JSONObject("{\"errormessage\":\"ParamError_NULL\"}");
+
+//        filePath = URLEncoder.encode(filePath, "utf-8");
+
+        SignInfoResult signInfoResult = new SignInfoResult();
+        LocalFileService localfileservice = new LocalFileServiceImpl();
+        JSONObject signResult = new JSONObject();
+        try {
+            signInfoResult = localfileservice.getSignInfoForPDF(filePath);
+            int errcod = signInfoResult.getErrCode();
+            String errmassage = signInfoResult.getMsg();
+
+            if (errcod == 0) {
+                signResult.put("status", errcod);
+                signResult.put("signInfoResult", signInfoResult.toString());
+            } else {
+                signResult.put("status", errcod);
+                signResult.put("errmassage", errmassage);
+            }
+        } catch (Exception ex) {
+            signResult.put("status", "500");
+            signResult.put("errmassage", ex.getMessage());
+        }
+
+        return signResult;
+    }
 }

@@ -205,6 +205,21 @@ $(document).ready(function () {
         }
     });
 
+    $("#btnGetSignInfo").on("click", function () {
+        $.ajax({
+            async: false,
+            url: serverHeader + "seal/getSignInfoForPDF",
+            data: {filePath: $("#txtOutputFile").val()},
+            type: "get",
+            dataType: "json",
+            success: function (msg) {
+                console.log(msg);
+            }, error: function (err) {
+                console.log(err);
+            }
+        });
+    });
+
     /**
      * 获取证照模板信息点击事件
      */
@@ -252,7 +267,7 @@ $(document).ready(function () {
         $.ajax({
             async: false,
             url: serverHeader + "inspur/getLicenceListByPagination",
-            data: {queryMap:"{LICENSE_TYPE_CODE:1c877391-d0d4-4554-adbe-df291c120efc}"},
+            data: {queryMap: "{LICENSE_TYPE_CODE:1c877391-d0d4-4554-adbe-df291c120efc}"},
             type: "get",
             dataType: "json",
             success: function (msg) {
@@ -270,7 +285,7 @@ $(document).ready(function () {
         $.ajax({
             async: false,
             url: serverHeader + "inspur/getLicenceInfoAndFile",
-            data: {licenseNo:"001008009005013_1c877391-d0d4-4554-adbe-df291c120efc_1_地字第（2016）027号"},
+            data: {licenseNo: "001008009005013_1c877391-d0d4-4554-adbe-df291c120efc_1_地字第（2016）027号"},
             type: "get",
             dataType: "json",
             success: function (msg) {

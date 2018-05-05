@@ -20,6 +20,8 @@ import org.json.JSONException;
 import cn.tf.project.service.SealService;
 import cn.tf.project.entity.SignInfo;
 
+import java.io.UnsupportedEncodingException;
+
 /**
  * Seal控制层
  */
@@ -107,26 +109,22 @@ public class SealRestController {
     }
 
     /**
-     * 删除签章接口
-     * 删除账户签名,当账户签名只剩一个时无法删除。
+     * 本地PDF文件验签接口
      *
-     * @param sealId 印章Id
-     * @return
+     * @param filePath 文件路径
+     * @return Json对象字符串
+     * @throws JSONException
      */
-//    @RequestMapping(value = "deleteBySealId")
-//    @ResponseBody
-//    public String deleteSeal(@RequestParam(value = "sealId") String sealId) throws JSONException {
-//        JSONObject deleteResult = new JSONObject();
-//
-//        try {
-//            deleteResult = sealService.deleteSeal(Integer.parseInt(sealId));
-//        } catch (Exception ex) {
-//            deleteResult.put("status", "1");
-//            deleteResult.put("errmassage", ex.getMessage());
-//        }
-//
-//        return deleteResult.toString();
-//    }
+    @ApiOperation(value = "本地PDF验签", notes = "本地PDF验签接口", httpMethod = "GET")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "filePath", value = "文件路径", required = true, dataType = "string")
+    })
+    @RequestMapping(value = "getSignInfoForPDF", method = RequestMethod.GET)
+    @ResponseBody
+    public String getSignInfoForPDF(@RequestParam(value = "filePath") String filePath) throws JSONException, UnsupportedEncodingException {
+        JSONObject signResult = sealService.getSignInfoForPDF(filePath);
+        return signResult.toString();
+    }
 
     /**
      * 跨域配置方法
