@@ -2,7 +2,7 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/cn/tf/project/common/SmsProvider.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/cn/tf/project/common/SmsProvider.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/cn/tf/project/jdbc/JDBCPool.java" charset="UTF-8" />
   </component>
 </project>

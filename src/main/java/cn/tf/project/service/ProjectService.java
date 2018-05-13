@@ -1,9 +1,14 @@
 package cn.tf.project.service;
 
+import cn.tf.project.configuration.PropertiesConfig;
 import cn.tf.project.jdbc.JDBCUtils;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.*;
 import java.util.Map;
 
@@ -16,6 +21,12 @@ import java.util.Map;
  */
 @Service
 public class ProjectService {
+    /*
+     *对象定义
+     */
+    @Autowired
+    private PropertiesConfig propertiesConfig;
+
     /**
      * 获取项目信息服务
      *
@@ -49,5 +60,22 @@ public class ProjectService {
             jdbcUtils.release(conn, pst, rs);
         }
         return projectInfo;
+    }
+
+    public String getProjectInfoByCheck(String projectCode) throws URISyntaxException {
+        Map<String, String> projectMap = propertiesConfig.getProject();
+        String url = projectMap.get("serverUrl");
+        String key = projectMap.get("key");
+
+        if (url == null || url.isEmpty() || key == null || key.isEmpty() ||
+                projectCode == null || projectCode.isEmpty())
+            return null;
+
+        RestTemplate restTemplate = new RestTemplate();
+        url += "?key=" + key + "&id=" + projectCode;
+        URI uri = new URI(url);
+        String result = restTemplate.getForObject(uri, String.class);
+
+        return result;
     }
 }

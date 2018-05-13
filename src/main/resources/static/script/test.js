@@ -130,7 +130,9 @@ $(document).ready(function () {
 
         var sealID = $("#txtSealID").val();
         if (!sealID) return;
-
+        var posCoord = $("#txtPosCoord").val();
+        if (!posCoord) return;
+        var posArray = posCoord.split(" ");
         switch (signType) {
             case "fileStreamSign": {
                 if (files.length > 0) {
@@ -144,8 +146,8 @@ $(document).ready(function () {
                                     "sealId": sealID,
                                     "posType": "0",
                                     "posPage": "1",
-                                    "posX": "300",
-                                    "posY": "200"
+                                    "posX": posArray[0],
+                                    "posY": posArray[1]
                                 }
                             },
                             dataType: "json",
@@ -180,8 +182,8 @@ $(document).ready(function () {
                         "dstPdfFile": outputFile,
                         "posType": "0",
                         "posPage": "1",
-                        "posX": "300",
-                        "posY": "200"
+                        "posX": posArray[0],
+                        "posY": posArray[1]
                     };
                     $.ajax({
                         url: serverHeader + "seal/localSignPDF",

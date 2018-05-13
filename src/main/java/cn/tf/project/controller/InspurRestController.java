@@ -18,6 +18,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import java.net.URISyntaxException;
 import java.sql.SQLException;
 
 /**
@@ -224,6 +225,24 @@ public class InspurRestController {
         JSONObject projectInfo = projectService.getProjectInfo(projectCode);
 
         return projectInfo.toString();
+    }
+
+    /**
+     * 获取项目信息（验证副码）接口
+     *
+     * @param projectCode 项目副码
+     * @return
+     */
+    @ApiOperation(value = "获取项目信息（验证副码）", notes = "获取项目信息（验证副码）接口", httpMethod = "GET")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "projectCode", value = "项目副码", required = true, dataType = "string")
+    })
+    @RequestMapping(value = "getProjectInfoByCheck")
+    @ResponseBody
+    public String getProjectInfoByCheck(@RequestParam(value = "projectCode") String projectCode) throws URISyntaxException {
+        String projectInfo = projectService.getProjectInfoByCheck(projectCode);
+
+        return projectInfo;
     }
 
     /**

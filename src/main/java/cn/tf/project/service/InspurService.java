@@ -1,17 +1,13 @@
 package cn.tf.project.service;
 
+import cn.tf.project.common.WebServiceClient;
 import org.json.JSONObject;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
-import java.util.Iterator;
 import java.util.Map;
 
 import cn.tf.project.configuration.PropertiesConfig;
@@ -31,6 +27,9 @@ public class InspurService {
     @Autowired
     private PropertiesConfig propertiesConfig;
 
+    @Autowired
+    private WebServiceClient webServiceClient; // 调用WebService客户端
+
     /**
      * 获取证照模板列表接口服务
      *
@@ -45,9 +44,8 @@ public class InspurService {
         String serviceName = "getLicenceTypeByItemCode";
         String paramList = "itemCode=" + URLEncoder.encode(itemCode, "utf-8");
 
-        RestTemplate restTemplate = new RestTemplate();
         URI uri = getWebLicenseServiceUri(serviceName, paramList);
-        String result = restTemplate.getForObject(uri, String.class);
+        String result = webServiceClient.callRestService(uri);
 
         return result;
     }
@@ -72,9 +70,8 @@ public class InspurService {
                 "&holderType=" + URLEncoder.encode(holderType, "utf-8") +
                 "&itemCode=" + URLEncoder.encode(itemCode, "utf-8");
 
-        RestTemplate restTemplate = new RestTemplate();
         URI uri = getWebLicenseServiceUri(serviceName, paramList);
-        String result = restTemplate.getForObject(uri, String.class);
+        String result = webServiceClient.callRestService(uri);
 
         return result;
     }
@@ -96,9 +93,8 @@ public class InspurService {
         if (page != null) paramList += "&page=" + page;
         if (rows != null) paramList += "&rows=" + rows;
 
-        RestTemplate restTemplate = new RestTemplate();
         URI uri = getWebLicenseServiceUri(serviceName, paramList);
-        String result = restTemplate.getForObject(uri, String.class);
+        String result = webServiceClient.callRestService(uri);
 
         return result;
     }
@@ -117,9 +113,8 @@ public class InspurService {
         String serviceName = "getLicenceListByMutliRequirement";
         String paramList = "queryMap=" + URLEncoder.encode(queryMap.toString(), "utf-8");
 
-        RestTemplate restTemplate = new RestTemplate();
         URI uri = getWebLicenseServiceUri(serviceName, paramList);
-        String result = restTemplate.getForObject(uri, String.class);
+        String result = webServiceClient.callRestService(uri);
 
         return result;
     }
@@ -147,9 +142,8 @@ public class InspurService {
         if (itemCode != null && !itemCode.isEmpty())
             paramList += "&itemCode=" + URLEncoder.encode(itemCode, "utf-8");
 
-        RestTemplate restTemplate = new RestTemplate();
         URI uri = getWebLicenseServiceUri(serviceName, paramList);
-        String result = restTemplate.getForObject(uri, String.class);
+        String result = webServiceClient.callRestService(uri);
 
         return result;
     }
@@ -182,9 +176,8 @@ public class InspurService {
         String paramList = "itemCode=" + URLEncoder.encode(itemCode, "utf-8");
         if (type != null && !type.isEmpty()) paramList += "&type=" + type;
 
-        RestTemplate restTemplate = new RestTemplate();
-        URI uri = getWebLicenseServiceUri(serviceName, paramList);
-        String result = restTemplate.getForObject(uri, String.class);
+        URI uri = getPowerManagerServiceUri(serviceName, paramList);
+        String result = webServiceClient.callRestService(uri);
 
         return result;
     }
@@ -203,9 +196,8 @@ public class InspurService {
         String serviceName = "getFormInfo";
         String paramList = "itemId=" + URLEncoder.encode(itemId, "utf-8");
 
-        RestTemplate restTemplate = new RestTemplate();
         URI uri = getCloudAcceptServiceUri(serviceName, paramList);
-        String result = restTemplate.getForObject(uri, String.class);
+        String result = webServiceClient.callRestService(uri);
 
         return result;
     }
@@ -224,9 +216,8 @@ public class InspurService {
         String serviceName = "webApply";
         String paramList = "postData=" + URLEncoder.encode(postData.toString(), "utf-8");
 
-        RestTemplate restTemplate = new RestTemplate();
         URI uri = getCloudAcceptServiceUri(serviceName, paramList);
-        String result = restTemplate.getForObject(uri, String.class);
+        String result = webServiceClient.callRestService(uri);
 
         return result;
     }
@@ -286,6 +277,37 @@ public class InspurService {
 //        url += serviceName + "?" + paramList + "appCode=" + appCode + "&time=" + timeStamp + "&sign=" + sign;
 //        URI uri = new URI(url);
         url += serviceName + "?" + paramList;
+        URI uri = new URI(url);
+
+        return uri;
+    }
+
+    /**
+     * 获取浪潮事项库服务URI
+     *
+     * @param serviceName 服务方法名称
+     * @param paramList   参数列表(参数值要进行编码，URLEncoder.encode(paramValue,"utf-8"))
+     * @return
+     * @throws Exception
+     */
+    private URI getPowerManagerServiceUri(String serviceName, String paramList) throws Exception {
+        Map<String, String> powerManagerMap = propertiesConfig.getPowerManager();
+        String url = powerManagerMap.get("serverBaseUrl");
+        String appCode = powerManagerMap.get("appCode");
+        String accessToken = powerManagerMap.get("accessToken");
+        if (url == null || url.isEmpty()
+                || appCode == null || appCode.isEmpty()
+                || accessToken == null || accessToken.isEmpty()) return null;
+
+        if (paramList != null && !paramList.isEmpty())
+            paramList += "&";
+
+        // 获取参数和签名
+        long timeStamp = System.currentTimeMillis();
+        String sign = getMD5(appCode + accessToken + timeStamp );
+
+        // 获取服务URI
+        url += serviceName + "?" + paramList + "client_id=" + appCode + "&time=" + timeStamp + "&sign=" + sign;
         URI uri = new URI(url);
 
         return uri;

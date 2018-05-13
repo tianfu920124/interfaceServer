@@ -10,8 +10,8 @@ import java.util.Properties;
 
 /**
  * Title: SmsProvider.java<br>
- * Description: ¶ÌĞÅ½Ó¿Ú»ñÈ¡<br>
- * Copyright (c) ÈÚ´´ĞÅÏ¢°æÈ¨ËùÓĞ 2012	<br>
+ * Description: çŸ­ä¿¡æ¥å£è·å–<br>
+ * Copyright (c) èåˆ›ä¿¡æ¯ç‰ˆæƒæ‰€æœ‰ 2012	<br>
  * Create DateTime: Jun 6, 2012 9:52:29 AM <br>
  *
  * @author ln
@@ -23,22 +23,22 @@ public class SmsProvider {
     public static String PASSWORD;
     private static String WEBSERVICE_URL;
 
-    //³õÊ¼»¯¶ÌĞÅ½Ó¿Ú
+    //åˆå§‹åŒ–çŸ­ä¿¡æ¥å£
     static {
-        //Í¨¹ı·´Éä»úÖÆ»ñÈ¡·ÃÎÊdb.propertiesÎÄ¼ş
+        //é€šè¿‡åå°„æœºåˆ¶è·å–è®¿é—®db.propertiesæ–‡ä»¶
         InputStream is = SmsProvider.class.getResourceAsStream("/paramConfig.properties");
         Properties prop = new Properties();
         try {
-            //¼ÓÔØdb.propertiesÎÄ¼ş
+            //åŠ è½½db.propertiesæ–‡ä»¶
             prop.load(is);
-            //»ñÈ¡paramConfig.propertiesÎÄ¼şÖĞµÄÊı¾İ¿âÁ¬½ÓĞÅÏ¢
+            //è·å–paramConfig.propertiesæ–‡ä»¶ä¸­çš„æ•°æ®åº“è¿æ¥ä¿¡æ¯
             APPLICATIONID = prop.getProperty("paramConfig.openMas[ApplicationID]");
             PASSWORD = prop.getProperty("paramConfig.openMas[Password]");
             WEBSERVICE_URL = prop.getProperty("paramConfig.openMas[serverUrl]");
 
             SMS = new Sms(WEBSERVICE_URL);
         } catch (AxisFault e) {
-            //TODO Ìí¼ÓÈÕÖ¾¼ÇÂ¼
+            //TODO æ·»åŠ æ—¥å¿—è®°å½•
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
@@ -46,9 +46,9 @@ public class SmsProvider {
     }
 
     /**
-     * »ñÈ¡¶ÌĞÅ½Ó¿Ú
+     * è·å–çŸ­ä¿¡æ¥å£
      *
-     * @return ·µ»Ø¶ÌĞÅMms
+     * @return è¿”å›çŸ­ä¿¡Mms
      */
     public static Sms getSms() {
         if (SMS == null) {
@@ -58,7 +58,7 @@ public class SmsProvider {
     }
 
     /**
-     * »ñÈ¡¶ÌĞÅÏêÇé
+     * è·å–çŸ­ä¿¡è¯¦æƒ…
      *
      * @param messageId
      * @return

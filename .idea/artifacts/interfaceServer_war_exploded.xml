@@ -36,6 +36,7 @@
           <element id="library" level="project" name="Maven: org.slf4j:slf4j-log4j12:1.7.22" />
           <element id="library" level="project" name="Maven: log4j:log4j:1.2.17" />
           <element id="library" level="project" name="Maven: mysql:mysql-connector-java:6.0.6" />
+          <element id="library" level="project" name="Maven: com.oracle:ojdbc14:10.2.0.4.0" />
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter-thymeleaf:1.5.10.RELEASE" />
           <element id="library" level="project" name="Maven: org.thymeleaf:thymeleaf-spring4:2.1.5.RELEASE" />
           <element id="library" level="project" name="Maven: org.thymeleaf:thymeleaf:2.1.5.RELEASE" />
@@ -86,10 +87,12 @@
           <element id="library" level="project" name="Maven: antlr:antlr:2.7.7" />
           <element id="library" level="project" name="Maven: aopalliance:aopalliance:1.0" />
           <element id="library" level="project" name="Maven: org.ow2.asm:asm:6.1.1" />
+          <element id="library" level="project" name="Maven: org.apache.axis:axis:1.4" />
           <element id="library" level="project" name="Maven: org.apache.axis2:axis2-adb:1.5.1" />
           <element id="library" level="project" name="Maven: org.apache.geronimo.specs:geronimo-activation_1.1_spec:1.0.1" />
           <element id="library" level="project" name="Maven: org.apache.ws.commons.axiom:axiom-dom:1.2.8" />
           <element id="library" level="project" name="Maven: xalan:xalan:2.7.0" />
+          <element id="library" level="project" name="Maven: org.codehaus.woodstox:wstx-asl:3.2.4" />
           <element id="library" level="project" name="Maven: org.apache.geronimo.specs:geronimo-stax-api_1.0_spec:1.0.1" />
           <element id="library" level="project" name="Maven: org.apache.axis2:axis2-kernel:1.5.1" />
           <element id="library" level="project" name="Maven: org.apache.geronimo.specs:geronimo-ws-metadata_2.0_spec:1.1.2" />

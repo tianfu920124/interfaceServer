@@ -55,6 +55,12 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>6.0.6</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.oracle/ojdbc14 -->
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc14</artifactId>
+            <version>10.2.0.4.0</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-thymeleaf -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -84,9 +90,9 @@
             <artifactId>commons-httpclient</artifactId>
             <version>3.1</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-io -->
+        <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
         <dependency>
-            <groupId>org.apache.commons</groupId>
+            <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>1.3.2</version>
         </dependency>
@@ -179,6 +185,12 @@
             <artifactId>asm</artifactId>
             <version>6.1.1</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.axis/axis -->
+        <dependency>
+            <groupId>org.apache.axis</groupId>
+            <artifactId>axis</artifactId>
+            <version>1.4</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.axis2/axis2-adb -->
         <dependency>
             <groupId>org.apache.axis2</groupId>
@@ -263,10 +275,10 @@
             <artifactId>wsdl4j</artifactId>
             <version>1.6.3</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.codehaus.woodstox/wstx-asl -->
+        <!-- https://mvnrepository.com/artifact/org.codehaus.woodstox/woodstox-core-asl -->
         <dependency>
             <groupId>org.codehaus.woodstox</groupId>
-            <artifactId>wstx-asl</artifactId>
+            <artifactId>woodstox-core-asl</artifactId>
             <version>4.0.6</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.ws.commons.schema/XmlSchema -->
